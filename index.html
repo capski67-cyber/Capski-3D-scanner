@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Capski 3D Scanner | Capstone Project</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="icon" type="image/png" href="assets/images/favicon.png">
+</head>
+<body>
+
+<section class="fullscreen-hero">
+  <div class="hero-content">
+    <div class="hero-badge">
+      <i class="fab fa-github"></i> Capski Research
+    </div>
+    <h1 class="hero-title">3D Optical Scanner</h1>
+    <p class="hero-subtitle">TEM Analogy · Real‑time 3D Reconstruction · DIY Instrumentation</p>
+    <div class="hero-meta">
+      <span><i class="fas fa-microscope"></i> TEM Education</span>
+      <span><i class="fas fa-chart-line"></i> Point Cloud System</span>
+      <span><i class="fas fa-code-branch"></i> Open Framework</span>
+    </div>
+    <div class="scroll-indicator">
+      <span>Scroll to explore</span>
+      <i class="fas fa-chevron-down"></i>
+    </div>
+  </div>
+  <div class="hero-bg-shape"></div>
+</section>
+
+  <div class="container">
+    <!-- Header Section -->
+    <header class="hero">
+      <div class="hero-badge">
+        <i class="fab fa-github"></i> Capski Research
+      </div>
+      <h1>3D Optical Scanner</h1>
+      <p class="subtitle">TEM Analogy · Real‑time 3D Reconstruction · DIY Instrumentation</p>
+      <div class="hero-meta">
+        <span><i class="fas fa-microscope"></i> Precision Scanning</span>
+        <span><i class="fas fa-chart-line"></i> Point Cloud Export</span>
+        <span><i class="fas fa-code-branch"></i> Open Framework</span>
+      </div>
+    </header>
+
+    <!--TABLE-->
+    <div class="card toc-card">
+      <h2><i class="fas fa-list-ul"></i> Table of Contents</h2>
+      <div class="toc-grid">
+        <a href="#purpose" class="toc-link"><i class="fas fa-bullseye"></i> Purpose & Problem</a>
+        <a href="#objectives" class="toc-link"><i class="fas fa-check-double"></i> Objectives</a>
+        <a href="#prototype" class="toc-link"><i class="fas fa-microchip"></i> Prototype & Parts</a>
+        <a href="#gallery" class="toc-link"><i class="fas fa-images"></i> Gallery</a>
+        <a href="#attachments" class="toc-link"><i class="fas fa-paperclip"></i> Attachments</a>
+        <a href="#contact" class="toc-link"><i class="fas fa-address-card"></i> Contact</a>
+      </div>
+    </div>
+
+    <!--PURPOSE & PROBLEM-->
+    <section id="purpose" class="card">
+      <h2><i class="fas fa-bullseye"></i> Purpose & Problem Statement</h2>
+      <div class="card-content">
+        <p><strong>Problem:</strong> Understanding Transmission Electron Microscopy (TEM) is challenging for undergraduate students due to abstract concepts, high costs, and limited access to real instruments. Most learners never see how scanning, signal detection, and 3D reconstruction actually work.</p>
+        <p><strong>Purpose:</strong> To build a low‑cost, macro‑scale 3D scanner that mimics the fundamental principles of TEM – systematic scanning, layer‑by‑layer acquisition, and digital reconstruction – making the invisible process tangible and interactive for educational demonstrations.</p>
+        <div class="info-note">
+          <i class="fas fa-lightbulb"></i> Our device translates electron beam rastering into optical scanning (IR) and rotational motion, exactly as TEM does with tilt‑series tomography.
+        </div>
+      </div>
+    </section>
+
+    <!--OBJECTIVES-->
+    <section id="objectives" class="card">
+      <h2><i class="fas fa-check-double"></i> Project Objectives</h2>
+      <div class="card-content">
+        <ul class="objectives-list">
+          <li><i class="fas fa-microchip"></i> Design & assemble a motorised turntable + Z‑axis stage (28BYJ‑48, lead screw).</li>
+          <li><i class="fas fa-chart-simple"></i> Integrate Sharp GP2Y0A21 IR distance sensor (10‑80 cm range).</li>
+          <li><i class="fas fa-code"></i> Develop Arduino firmware for scanning sequences + real‑time data streaming.</li>
+          <li><i class="fas fa-cube"></i> Build a Python controller to reconstruct point clouds (PLY/XYZ) and visualise in Blender.</li>
+          <li><i class="fas fa-chalkboard-user"></i> Demonstrate TEM analogy: "scanning → detection → reconstruction" at macro scale.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!--PROTOTYPE & PARTS-->
+    <section id="prototype" class="card">
+      <h2><i class="fas fa-microchip"></i> Prototype & Component Breakdown</h2>
+      <div class="card-content">
+        <!-- PROTOTYPE IMAGE -->
+        <div class="image-placeholder">
+          <img src="assets/images/prototype/full_assembly.jpg" alt="3D Scanner Prototype" class="responsive-img" onerror="this.src='https://placehold.co/800x500/1c2128/58a6ff?text=PROTOTYPE+IMAGE+COMING+SOON'">
+          <p class="caption">Figure 1: Complete scanner assembly.</p>
+        </div>
+        
+        <h3>Major Hardware Components</h3>
+        <div class="parts-grid">
+          <div class="part-card"><i class="fas fa-microchip"></i> Arduino Uno</div>
+          <div class="part-card"><i class="fas fa-sync-alt"></i> 28BYJ‑48 + ULN2003</div>
+          <div class="part-card"><i class="fas fa-ruler-combined"></i> T8 lead screw (8mm lead)</div>
+          <div class="part-card"><i class="fas fa-eye"></i> Sharp GP2Y0A21 (10‑80cm)</div>
+          <div class="part-card"><i class="fas fa-gamepad"></i> 2‑axis joystick + tactile switches</div>
+          <div class="part-card"><i class="fas fa-plug"></i> 5V power supply & driver board</div>
+        </div>
+
+        <!-- WIRING DIAGRAM -->
+        <div class="image-placeholder secondary">
+          <img src="assets/images/diagrams/wiring_schematic.png" alt="Wiring Diagram" class="responsive-img" onerror="this.src='https://placehold.co/800x500/1c2128/58a6ff?text=WIRING+DIAGRAM+COMING+SOON'">
+          <p class="caption">Figure 2: Wiring schematic.</p>
+        </div>
+
+        <!-- BLOCK DIAGRAM -->
+        <div class="image-placeholder secondary">
+          <img src="assets/images/diagrams/block_diagram.png" alt="System Block Diagram" class="responsive-img" onerror="this.src='https://placehold.co/800x400/1c2128/58a6ff?text=BLOCK+DIAGRAM+COMING+SOON'">
+          <p class="caption">Figure 3: System architecture – Arduino control and User Interaction.</p>
+        </div>
+      </div>
+    </section>
+
+    <!--GALLERY-->
+    <section id="gallery" class="card">
+      <h2><i class="fas fa-images"></i> Gallery & Workflow</h2>
+      <div class="gallery-grid">
+        <div class="gallery-item">
+          <img src="C:\Users\ASUS\Desktop\caps caps\website\assets\images\prototype\turntable_closeup.png" alt="Turntable mechanism" class="gallery-img" onerror="this.src='https://placehold.co/300x300/1c2128/58a6ff?text=TURNTABLE'">
+          <p>Turntable mechanism with 28BYJ‑48 motor</p>
+        </div>
+        <div class="gallery-item">
+          <img src="assets/images/prototype/zaxis_motor.jpg" alt="Z-axis assembly" class="gallery-img" onerror="this.src='https://placehold.co/300x300/1c2128/58a6ff?text=Z-AXIS'">
+          <p>Z-axis lead screw and stepper mount</p>
+        </div>
+        <div class="gallery-item">
+          <img src="assets/images/scans/lighter_pointcloud.png" alt="Point cloud result" class="gallery-img" onerror="this.src='https://placehold.co/300x300/1c2128/58a6ff?text=POINT+CLOUD'">
+          <p>Point cloud reconstruction of a roll of tape</p>
+        </div>
+        <div class="gallery-item">
+          <img src="assets/images/scans/meshlab_screenshot.png" alt="MeshLab view" class="gallery-img" onerror="this.src='https://placehold.co/300x300/1c2128/58a6ff?text=MESHLAB'">
+          <p>Blender visualization of scan data</p> 
+        </div>
+        <div class="gallery-item">
+          <img src="assets/images/team/lab_setup.jpg" alt="Lab setup" class="gallery-img" onerror="this.src='https://placehold.co/300x300/1c2128/58a6ff?text=LAB+SETUP'">
+          <p>Complete lab setup during testing</p>
+        </div>
+        <div class="gallery-item">
+          <img src="assets/images/team/group_photo.jpg" alt="Team photo" class="gallery-img" onerror="this.src='https://placehold.co/300x300/1c2128/58a6ff?text=TEAM+PHOTO'">
+          <p>The Capski research team</p>
+        </div>
+      </div>
+    </section>
+
+    <!--ATTACHMENTS-->
+    <section id="attachments" class="card">
+      <h2><i class="fas fa-paperclip"></i> Attachments & Resources</h2>
+      <div class="attachments-list">
+        <div class="attach-item">
+          <i class="fab fa-arduino"></i>
+          <span>Arduino firmware – 3D_scanner.ino</span>
+          <a href="assets/files/arduino_code/sketch_mar23a.ino" class="btn-placeholder" download>📎 Download</a>
+        </div>
+        <div class="attach-item">
+          <i class="fab fa-python"></i>
+          <span>Python receiver + PLY converter</span>
+          <a href="assets/files/python_code/scanner.py" class="btn-placeholder" download>🐍 Download</a>
+        </div>
+        <div class="attach-item">
+          <i class="fas fa-file-pdf"></i>
+          <span>Technical report & research paper</span>
+          <a href="assets/docs/CAPSKI.com.docx" class="btn-placeholder" download>📑 View Docx</a>
+        </div>
+      </div>
+      <div class="info-note">
+        <i class="fab fa-github"></i> Full source code & CAD files: <strong>github.com/capski/3d-scanner</strong>
+      </div>
+    </section>
+
+    <!--CONTACT-->
+    <section id="contact" class="card">
+      <h2><i class="fas fa-address-card"></i> Contact & Research Team</h2>
+      <div class="contact-grid">
+        <div class="contact-info">
+          <i class="fas fa-envelope"></i> <strong>Email:</strong> Capski67@gmail.com<br>
+          <i class="fab fa-github"></i> <strong>GitHub:</strong> @capski67-cyber<br>
+          <i class="fas fa-phone-alt"></i> <strong>Contact No.:</strong> +63 951 434 7972<br>
+          <i class="fas fa-map-marker-alt"></i> <strong>School:</strong> Mindanao State University, Maigo College of Education Science and Technology
+        </div>
+        <div class="members">
+          <p><strong>Team Capski:</strong></p>
+          <ul>
+            <li>Bocayong, Apple Jhen P.</li>
+            <li>Demecillo, Debie Janen R.</li>
+            <li>Humdos, Dana T.</li>
+            <li>Guangco, Isaiah Gelmar C.</li>
+            <li>Oguis, Uhxia M.</li>
+            <li>Recitas, Clint Titus T.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="contact-footer">
+        <p><i class="fas fa-calendar-alt"></i> Capstone Presentation – April 2026 &nbsp;|&nbsp; <i class="fas fa-globe"></i> DOI / preprint coming soon</p>
+      </div>
+    </section>
+
+    <!-- footer -->
+    <footer class="footer">
+      <p>© 2026 Capski Research Group – inspired by TEM principles & open hardware. <i class="fas fa-cube"></i> 3D for education</p>
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
