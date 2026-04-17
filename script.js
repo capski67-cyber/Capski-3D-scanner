@@ -315,3 +315,28 @@ window.addEventListener('scroll', () => {
 });
 
 console.log('✨ Scroll reveal animations active!');
+
+// ========== STICKY CENTERED TITLE ON SCROLL ==========
+// Create sticky title element
+const stickyTitle = document.createElement('div');
+stickyTitle.className = 'sticky-title';
+stickyTitle.innerHTML = `
+  <h1>3D Optical Scanner</h1>
+  <p>TEM Analogy · Real‑time 3D Reconstruction · DIY Instrumentation</p>
+`;
+document.body.insertBefore(stickyTitle, document.body.firstChild);
+
+// Show/hide sticky title based on scroll position
+const heroSection = document.querySelector('.fullscreen-hero');
+if (heroSection) {
+  window.addEventListener('scroll', () => {
+    const heroBottom = heroSection.offsetTop + heroSection.offsetHeight;
+    const scrollPosition = window.scrollY + 100;
+    
+    if (scrollPosition > heroBottom) {
+      stickyTitle.classList.add('visible');
+    } else {
+      stickyTitle.classList.remove('visible');
+    }
+  });
+}
