@@ -36,7 +36,7 @@ body {
   overflow-x: hidden;
 }
 
-/* ========== FULL SCREEN TITLE PAGE ========== */
+/* ========== FULL SCREEN TITLE PAGE - FIXED CENTERING ========== */
 .fullscreen-hero {
   position: relative;
   min-height: 100vh;
@@ -54,38 +54,14 @@ body {
 .hero-content {
   max-width: 900px;
   width: 90%;
-  padding: 1rem;
+  padding: 2rem;
   z-index: 2;
   animation: slideUp 0.8s ease-out;
   margin: 0 auto;
   text-align: center;
-}
-
-.hero-title {
-  font-size: clamp(2rem, 8vw, 4rem);
-  font-weight: 800;
-  background: linear-gradient(135deg, #ffffff 0%, #58a6ff 50%, #8b949e 100%);
-  background-clip: text;
-  -webkit-background-clip: text;
-  color: transparent;
-  margin-bottom: 0.75rem;
-  letter-spacing: -0.02em;
-  word-wrap: break-word;
-  text-align: center;
-  max-width: 900px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.hero-subtitle {
-  font-size: clamp(0.9rem, 4vw, 1.3rem);
-  color: var(--text-secondary);
-  margin-bottom: 1rem;
-  padding: 0 1rem;
-  text-align: center;
-  max-width: 650px;
-  margin-left: auto;
-  margin-right: auto;
+  position: relative;
+  left: 0;
+  right: 0;
 }
 
 .hero-badge {
@@ -102,6 +78,38 @@ body {
   margin-left: auto;
   margin-right: auto;
   width: fit-content;
+}
+
+.hero-title {
+  font-size: clamp(2rem, 8vw, 4rem);
+  font-weight: 800;
+  background: linear-gradient(135deg, #ffffff 0%, #58a6ff 50%, #8b949e 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.02em;
+  word-wrap: break-word;
+  text-align: center;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+  display: block;
+  width: 100%;
+}
+
+.hero-subtitle {
+  font-size: clamp(0.9rem, 4vw, 1.3rem);
+  color: var(--text-secondary);
+  margin-bottom: 1.5rem;
+  padding: 0 1rem;
+  text-align: center;
+  max-width: 650px;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  width: 100%;
 }
 
 .hero-meta {
@@ -126,10 +134,10 @@ body {
   white-space: nowrap;
 }
 
-/* Scroll indicator */
+/* Scroll indicator - centered */
 .scroll-indicator {
   position: absolute;
-  bottom: 20px;
+  bottom: 30px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -146,7 +154,50 @@ body {
   text-align: center;
 }
 
-/* ========== CARDS ========== */
+.scroll-indicator i {
+  font-size: 1.2rem;
+}
+
+/* ========== STICKY CENTERED TITLE AFTER SCROLL ========== */
+.sticky-title {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: var(--bg-primary);
+  padding: 0.75rem 1rem;
+  text-align: center;
+  z-index: 1000;
+  transform: translateY(-100%);
+  transition: transform 0.3s ease;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.sticky-title.visible {
+  transform: translateY(0);
+}
+
+.sticky-title h1 {
+  font-size: clamp(1rem, 4vw, 1.5rem);
+  font-weight: 600;
+  background: linear-gradient(135deg, #ffffff 0%, #58a6ff 50%, #8b949e 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  margin: 0;
+  letter-spacing: -0.02em;
+  text-align: center;
+}
+
+.sticky-title p {
+  font-size: clamp(0.6rem, 3vw, 0.75rem);
+  color: var(--text-secondary);
+  margin: 0.25rem 0 0;
+  text-align: center;
+}
+
+/* ========== CARDS - FIXED CENTERING ========== */
 .card {
   background: var(--bg-secondary);
   border: 1px solid var(--border-color);
@@ -160,7 +211,7 @@ body {
   overflow-x: hidden;
 }
 
-/* Card headings - centered on mobile, left on desktop */
+/* Card headings - centered on all devices */
 .card h2, .toc-card h2 {
   font-size: clamp(1.2rem, 5vw, 1.6rem);
   margin-bottom: 1rem;
@@ -170,26 +221,13 @@ body {
   word-break: break-word;
   text-align: center;
   justify-content: center;
+  width: 100%;
 }
 
-@media (min-width: 768px) {
-  .card h2, .toc-card h2 {
-    text-align: left;
-    justify-content: flex-start;
-    border-left: 4px solid var(--accent-blue);
-    padding-left: 1rem;
-  }
-}
-
-/* Card content - centered text on mobile */
+/* Card content - centered on mobile, left on desktop */
 .card-content {
   text-align: center;
-}
-
-@media (min-width: 768px) {
-  .card-content {
-    text-align: left;
-  }
+  width: 100%;
 }
 
 .card-content p {
@@ -203,14 +241,7 @@ body {
   margin-right: auto;
 }
 
-@media (min-width: 768px) {
-  .card-content p {
-    margin-left: 0;
-    margin-right: 0;
-  }
-}
-
-/* Table of Contents */
+/* ========== TABLE OF CONTENTS - CENTERED ========== */
 .toc-card {
   text-align: center;
 }
@@ -234,56 +265,9 @@ body {
   align-items: center;
   gap: 8px;
   font-size: clamp(0.75rem, 3vw, 0.9rem);
-  white-space: nowrap;
 }
 
-@media (max-width: 500px) {
-  .toc-link {
-    white-space: normal;
-    word-break: keep-all;
-  }
-}
-
-/* ========== IMAGE SCALING ========== */
-img {
-  max-width: 100%;
-  height: auto;
-  display: block;
-}
-
-.responsive-img {
-  width: 100%;
-  max-width: 100%;
-  height: auto;
-  object-fit: contain;
-  border-radius: 12px;
-  border: 1px solid var(--border-color);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.image-placeholder {
-  margin: 1rem 0;
-  text-align: center;
-  max-width: 100%;
-}
-
-.image-placeholder img {
-  max-width: 100%;
-  width: auto;
-  margin: 0 auto;
-  border-radius: 12px;
-}
-
-.caption {
-  margin-top: 0.5rem;
-  font-size: clamp(0.7rem, 3vw, 0.85rem);
-  color: var(--text-secondary);
-  text-align: center;
-  max-width: 100%;
-  word-wrap: break-word;
-}
-
-/* ========== GALLERY GRID ========== */
+/* ========== GALLERY - CENTERED CAPTIONS ========== */
 .gallery-grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -329,10 +313,9 @@ img {
   color: var(--text-secondary);
   word-break: break-word;
   text-align: center;
-  max-width: 100%;
 }
 
-/* ========== PARTS GRID ========== */
+/* ========== PARTS GRID - CENTERED ========== */
 .parts-grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -406,7 +389,7 @@ img {
   }
 }
 
-/* ========== INFO NOTE ========== */
+/* ========== INFO NOTE - CENTERED ========== */
 .info-note {
   background: rgba(88, 166, 255, 0.08);
   border-left: 3px solid var(--accent-blue);
@@ -416,12 +399,6 @@ img {
   font-size: clamp(0.8rem, 3vw, 0.95rem);
   word-break: break-word;
   text-align: center;
-}
-
-@media (min-width: 768px) {
-  .info-note {
-    text-align: left;
-  }
 }
 
 /* ========== ATTACHMENTS ========== */
@@ -480,7 +457,7 @@ img {
   text-align: center;
 }
 
-/* ========== CONTACT SECTION ========== */
+/* ========== CONTACT SECTION - CENTERED ========== */
 .contact-grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -505,12 +482,6 @@ img {
   text-align: center;
 }
 
-@media (min-width: 768px) {
-  .contact-info, .members {
-    text-align: left;
-  }
-}
-
 .members ul {
   margin-top: 0.5rem;
   list-style: none;
@@ -523,12 +494,6 @@ img {
   text-align: center;
 }
 
-@media (min-width: 768px) {
-  .members li {
-    text-align: left;
-  }
-}
-
 .contact-footer {
   margin-top: 1rem;
   padding-top: 1rem;
@@ -538,7 +503,7 @@ img {
   word-break: break-word;
 }
 
-/* ========== FOOTER ========== */
+/* ========== FOOTER - CENTERED ========== */
 .footer {
   text-align: center;
   margin-top: 2rem;
@@ -547,6 +512,46 @@ img {
   color: var(--text-secondary);
   font-size: clamp(0.7rem, 3vw, 0.85rem);
   word-break: break-word;
+}
+
+/* ========== IMAGE PLACEHOLDERS ========== */
+.image-placeholder {
+  margin: 1rem 0;
+  text-align: center;
+  max-width: 100%;
+}
+
+.image-placeholder img {
+  max-width: 100%;
+  width: auto;
+  margin: 0 auto;
+  border-radius: 12px;
+}
+
+.caption {
+  margin-top: 0.5rem;
+  font-size: clamp(0.7rem, 3vw, 0.85rem);
+  color: var(--text-secondary);
+  text-align: center;
+  max-width: 100%;
+  word-wrap: break-word;
+}
+
+/* ========== RESPONSIVE IMAGES ========== */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+.responsive-img {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 /* ========== ANIMATIONS ========== */
@@ -762,30 +767,69 @@ img {
   }
 }
 
-/* ========== TEXT WRAPPING UTILITIES ========== */
-/* Prevents any text from going off-screen */
-p, h1, h2, h3, h4, span, a, li, div:not(.no-wrap) {
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-  max-width: 100%;
-}
-
-/* Forced text centering on all text elements on mobile */
-@media (max-width: 767px) {
-  p, li, .caption, .info-note, .contact-info, .members, .footer {
-    text-align: center !important;
+/* ========== DESKTOP LEFT-ALIGN EXCEPTIONS ========== */
+@media (min-width: 768px) {
+  .card h2, .toc-card h2 {
+    justify-content: flex-start;
+    text-align: left;
+    border-left: 4px solid var(--accent-blue);
+    padding-left: 1rem;
+  }
+  
+  .card-content {
+    text-align: left;
+  }
+  
+  .card-content p {
+    margin-left: 0;
+    margin-right: 0;
+  }
+  
+  .info-note {
+    text-align: left;
+  }
+  
+  .contact-info, .members {
+    text-align: left;
+  }
+  
+  .members li {
+    text-align: left;
   }
   
   .objectives-list li {
-    text-align: left !important;
+    margin-left: 0;
+    margin-right: 0;
   }
-  
-  .attach-item span {
-    text-align: center !important;
-  }
-  
+}
+
+/* ========== MOBILE FORCED CENTERING ========== */
+@media (max-width: 767px) {
   .card h2, .toc-card h2 {
-    text-align: center !important;
     justify-content: center !important;
+    text-align: center !important;
+    border-left: none !important;
+    padding-left: 0 !important;
+  }
+  
+  .card-content {
+    text-align: center !important;
+  }
+  
+  .card-content p {
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+  
+  .info-note {
+    text-align: center !important;
+  }
+  
+  .contact-info, .members {
+    text-align: center !important;
+  }
+  
+  .members li {
+    text-align: center !important;
   }
 }
