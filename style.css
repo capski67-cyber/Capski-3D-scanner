@@ -36,7 +36,7 @@ body {
   overflow-x: hidden;
 }
 
-/* ========== FULL SCREEN TITLE PAGE - FIXED ========== */
+/* ========== FULL SCREEN TITLE PAGE - COMPLETELY REWRITTEN ========== */
 .fullscreen-hero {
   position: relative;
   min-height: 100vh;
@@ -45,7 +45,6 @@ body {
   justify-content: center;
   text-align: center;
   background: linear-gradient(135deg, #0d1117 0%, #161b22 100%);
-  overflow: hidden;
   margin-bottom: 2rem;
   width: 100%;
 }
@@ -54,21 +53,18 @@ body {
   max-width: 900px;
   width: 90%;
   padding: 2rem;
-  z-index: 2;
   margin: 0 auto;
   text-align: center;
 }
 
 .hero-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
+  display: inline-block;
   background: rgba(88, 166, 255, 0.12);
-  padding: 0.3rem 1rem;
+  padding: 0.3rem 1.2rem;
   border-radius: 40px;
   font-size: 0.85rem;
   color: var(--accent-blue);
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
   border: 1px solid rgba(88, 166, 255, 0.2);
 }
 
@@ -81,14 +77,14 @@ body {
   color: transparent;
   margin-bottom: 1rem;
   letter-spacing: -0.02em;
-  line-height: 1.2;
+  line-height: 1.3;
 }
 
 .hero-subtitle {
   font-size: 1.3rem;
   color: var(--text-secondary);
-  margin-bottom: 1.5rem;
-  line-height: 1.4;
+  margin-bottom: 2rem;
+  line-height: 1.6;
 }
 
 .hero-meta {
@@ -96,34 +92,33 @@ body {
   justify-content: center;
   gap: 1.5rem;
   flex-wrap: wrap;
-  margin-top: 1rem;
+  margin: 1.5rem 0;
 }
 
 .hero-meta span {
   font-size: 0.9rem;
   background: #21262d;
-  padding: 0.4rem 1rem;
+  padding: 0.5rem 1.2rem;
   border-radius: 30px;
   display: inline-flex;
   align-items: center;
   gap: 8px;
 }
 
-/* Separator line */
 .hero-separator {
-  width: 80px;
+  width: 60px;
   height: 2px;
   background: var(--border-color);
-  margin: 1.5rem auto;
+  margin: 2rem auto;
 }
 
 .hero-subtext {
   font-size: 1rem;
   color: var(--text-secondary);
   margin-top: 1rem;
+  font-weight: 500;
 }
 
-/* Scroll indicator */
 .scroll-indicator {
   position: absolute;
   bottom: 30px;
@@ -142,6 +137,50 @@ body {
 
 .scroll-indicator i {
   font-size: 1.2rem;
+}
+
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 2.2rem;
+  }
+  
+  .hero-subtitle {
+    font-size: 1rem;
+  }
+  
+  .hero-meta {
+    gap: 0.8rem;
+  }
+  
+  .hero-meta span {
+    font-size: 0.7rem;
+    padding: 0.3rem 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: 1.8rem;
+  }
+  
+  .hero-subtitle {
+    font-size: 0.85rem;
+  }
+  
+  .hero-meta {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateX(-50%) translateY(0);
+  }
+  50% {
+    transform: translateX(-50%) translateY(10px);
+  }
 }
 
 /* ========== STICKY TITLE ========== */
