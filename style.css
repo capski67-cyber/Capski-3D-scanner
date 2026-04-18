@@ -716,3 +716,48 @@ body {
     right: 10px;
   }
 }
+
+/* ========== FIX IMAGE SCALING ========== */
+/* Make all images responsive and never larger than their container */
+.image-placeholder img,
+.responsive-img,
+.gallery-img,
+img {
+  max-width: 100%;
+  width: auto;
+  height: auto;
+}
+
+/* Limit figure images to a reasonable size */
+.image-placeholder {
+  max-width: 100%;
+  margin: 1.5rem auto;
+}
+
+.image-placeholder img {
+  max-width: min(100%, 600px);
+  display: block;
+  margin: 0 auto;
+  border-radius: 12px;
+}
+
+/* For larger images like prototypes, constrain size */
+.image-placeholder:first-of-type img {
+  max-width: min(100%, 700px);
+}
+
+/* Caption stays centered */
+.caption {
+  text-align: center;
+  max-width: 100%;
+  margin-top: 0.75rem;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+/* Ensure figure containers don't overflow */
+figure {
+  margin: 0;
+  padding: 0;
+  max-width: 100%;
+}
