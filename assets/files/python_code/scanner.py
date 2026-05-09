@@ -7,11 +7,13 @@ import numpy as np
 from PyQt5 import QtWidgets, QtCore
 import pyqtgraph.opengl as gl
 
+# SETTINGS
 
-PORT = 'COM3'  
+PORT = 'COM3'   # CAN BE CHANGED
 BAUD = 9600
 SAVE_PATH = r"C:\Users\ASUS\Desktop\caps caps\scans\scan.ply"
 
+# MAIN WINDOW
 
 class ScannerApp(QtWidgets.QWidget):
     def __init__(self):
@@ -19,43 +21,84 @@ class ScannerApp(QtWidgets.QWidget):
 
         self.setWindowTitle("3D Scanner")
         self.setGeometry(100, 100, 900, 700)
+
+        # Cereal
         self.ser = serial.Serial(PORT, BAUD, timeout=1)
+
+        # Data
         self.points = []
+
+        self.manual_mode = False
+
+        # UI Layout
         layout = QtWidgets.QVBoxLayout()
+
+        # 3D View
         self.view = gl.GLViewWidget()
         self.view.opts['distance'] = 50
         layout.addWidget(self.view)
+
+        # Scatter Paldo
         self.scatter = gl.GLScatterPlotItem()
         self.view.addItem(self.scatter)
+
+        # Buttons
         btn_layout = QtWidgets.QHBoxLayout()
+
         self.btn_home = QtWidgets.QPushButton("Homing (H)")
         self.btn_start = QtWidgets.QPushButton("Start Scan (S)")
         self.btn_stop = QtWidgets.QPushButton("Stop (P)")
         self.btn_save = QtWidgets.QPushButton("Save (Q)")
+        self.btn_manual = QtWidgets.QPushButton("Manual Mode (M)")
+        self.manual_label = QtWidgets.QLabel("Manual Mode: OFF")
         self.btn_up = QtWidgets.QPushButton("Z Up (Hold)")
         self.btn_down = QtWidgets.QPushButton("Z Down (Hold)")
+
         btn_layout.addWidget(self.btn_home)
         btn_layout.addWidget(self.btn_start)
         btn_layout.addWidget(self.btn_stop)
         btn_layout.addWidget(self.btn_save)
+        btn_layout.addWidget(self.btn_manual)
         btn_layout.addWidget(self.btn_up)
         btn_layout.addWidget(self.btn_down)
+
         layout.addLayout(btn_layout)
-        self.setLayout(layout)
+        layout.addWidget(self.manual_label)
+
+        # Optional status label
+        self.manual_label = QtWidgets.QLabel("Manual Mode: OFF")
+        layout.addWidget(self.manual_label)
+
+        # Button actions
         self.btn_home.clicked.connect(lambda: self.send_cmd('H'))
         self.btn_start.clicked.connect(lambda: self.send_cmd('S'))
         self.btn_stop.clicked.connect(lambda: self.send_cmd('P'))
         self.btn_save.clicked.connect(self.save_and_quit)
         self.btn_up.pressed.connect(lambda: self.send_cmd('U'))
         self.btn_up.released.connect(lambda: self.send_cmd('X'))
+        self.btn_manual.clicked.connect(self.toggle_manual_mode)
+
         self.btn_down.pressed.connect(lambda: self.send_cmd('D'))
         self.btn_down.released.connect(lambda: self.send_cmd('X'))
+        # Thread for serial reading
         self.running = True
         self.thread = threading.Thread(target=self.read_serial)
         self.thread.start()
+
+        # Timer for updating plot
         self.timer = QtCore.QTimer()
         self.timer.timeout.connect(self.update_plot)
         self.timer.start(100)
+
+    def toggle_manual_mode(self):
+        self.manual_mode = not self.manual_mode
+
+        self.send_cmd('M')
+
+        if self.manual_mode:
+            self.manual_label.setText("Manual Mode: ON")
+        else:
+            self.manual_label.setText("Manual Mode: OFF")
 
     # CEREAL
 
@@ -84,7 +127,7 @@ class ScannerApp(QtWidgets.QWidget):
         if event.key() in (QtCore.Qt.Key_W, QtCore.Qt.Key_S):
             self.send_cmd('X')
 
-    # TYEYE
+    # PLOT 
 
     def update_plot(self):
         if len(self.points) == 0:
@@ -98,7 +141,7 @@ class ScannerApp(QtWidgets.QWidget):
             pxMode=True
         )
 
-    # SAVE
+    # SAVE 
 
     def save_ply(self):
         with open(SAVE_PATH, 'w') as f:
