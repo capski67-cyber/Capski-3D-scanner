@@ -2,23 +2,25 @@
 
 #include <Arduino.h>
 
-// ULN2003 motor pins (4 pins per motor)
+// ULN2003
 int r_pins[4] = {7, 8, 9, 10};   // Turntable motor
 int z_pins[4] = {3, 4, 5, 6};    // Z-axis motor
+int joystick_y = A1;   // The joy of a stick
 
 int joystick_btn = 2;
 int sensor_pin = A0;
 
-const int steps_per_rev = 2048;   // 28BYJ-48 real steps
+const int steps_per_rev = 2048; 
 const float layer_height_mm = .7;
+const float sensor_offset_cm = 8.0;
 const int lead_screw_rot_per_cm = 8;
 
 int steps_per_layer;
 
 // timing
 unsigned long lastStepTime = 0;
-int stepDelay = 3; // ms (smooth control)
-int zStepDelay = 8; // slower than rotation (increase = slower)
+int stepDelay = 8; // ms 
+int zStepDelay = 8; // increase = slower
 unsigned long lastZStepTime = 0;
 
 // STATE
@@ -27,7 +29,8 @@ enum State {
   HOMING,
   READY,
   SCANNING,
-  STOPPED
+  STOPPED,
+  MANUAL_HOMING
 };
 
 State state = IDLE;
@@ -45,6 +48,10 @@ int zStepsDone = 0;
 
 float angle = 0;
 float z = 0;
+const float max_z_height_mm = 120;
+
+bool movingZ = false;
+int zStepProgress = 0;
 
 // SEQUENCE
 
@@ -95,7 +102,7 @@ float readDistance() {
 
   // average to reduce noise
   for(int i = 0; i < 5; i++) {
-    sum += analogRead(A0);
+    sum += analogRead(sensor_pin);
     delay(2);
   }
 
@@ -131,14 +138,16 @@ void handleSerial() {
     char cmd = Serial.read();
 
     if (cmd == 'H') state = READY;
+
     if (cmd == 'S') state = SCANNING;
+
     if (cmd == 'P') state = STOPPED;
+
     if (cmd == 'Q') {
       state = IDLE;
       Serial.println("DONE");
     }
 
-    // NEW manual controls
     if (cmd == 'U') {
       manualMove = true;
       manualDir = 1;
@@ -154,11 +163,28 @@ void handleSerial() {
     if (cmd == 'X') {
       manualMove = false;
     }
+
+    if (cmd == 'M') {
+
+      if (state != MANUAL_HOMING) {
+        state = MANUAL_HOMING;
+        Serial.println("MANUAL HOMING ON");
+      }
+
+      else {
+        state = READY;
+
+        z = 0;
+        rotationSteps = 0;
+        zStepProgress = 0;
+
+        Serial.println("MANUAL HOMING OFF");
+      }
+    }
   }
 }
 
 // PS5
-
 void handleJoystick() {
   if (digitalRead(joystick_btn) == LOW) {
     state = HOMING;
@@ -181,6 +207,10 @@ void runState() {
       // idle, waiting for scan
       break;
 
+    case MANUAL_HOMING:
+      manualHomingControl();
+      break;
+
     case SCANNING:
       scanningStep();
       break;
@@ -194,11 +224,8 @@ void runState() {
   }
 }
 
-// PEW PEW
-bool movingZ = false;
-int zStepProgress = 0;
-
 void scanningStep() {
+
   if (movingZ) {
 
     if (millis() - lastZStepTime >= zStepDelay) {
@@ -211,8 +238,15 @@ void scanningStep() {
     if (zStepProgress >= steps_per_layer) {
       movingZ = false;
       zStepProgress = 0;
-      z += layer_height_mm;
+      z += layer_height_mm / 10.0;
     }
+
+    if (z >= max_z_height_mm / 10.0) {
+      state = STOPPED;
+      Serial.println("SCAN COMPLETE");
+      return;
+    }
+
     return;
   }
 
@@ -222,19 +256,73 @@ void scanningStep() {
 
   angle = (2 * 3.141592 * rotationSteps) / steps_per_rev;
 
-  float distance = readDistance();
+  if(rotationSteps % 8 == 0) {
 
-  float x = cos(angle) * distance;
-  float y = sin(angle) * distance;
+    float distance = readDistance();
 
-  Serial.print(x);
-  Serial.print(",");
-  Serial.print(y);
-  Serial.print(",");
-  Serial.println(z);
+    distance = constrain(distance, 0, 30);
+
+    distance = sensor_offset_cm - distance;
+
+    float x = cos(angle) * distance;
+    float y = sin(angle) * distance;
+
+    Serial.print(x);
+    Serial.print(",");
+    Serial.print(y);
+    Serial.print(",");
+    Serial.println(z);
+  }
 
   if (rotationSteps >= steps_per_rev) {
     rotationSteps = 0;
-    movingZ = true;   // instead of blocking loop
+    movingZ = true;
+  }
+}
+
+void manualHomingControl() {
+  int joyVal = analogRead(joystick_y);
+
+  int center = 512;
+  int deadzone = 100;
+
+  static unsigned long lastManualStep = 0;
+
+  // UP
+  if (joyVal > center + deadzone) {
+
+    int speedAmount = joyVal - (center + deadzone);
+
+    int manualDelay = map(
+      speedAmount,
+      0,
+      511 - deadzone,
+      25,   // can be slow
+      3     // can be fast
+    );
+
+    if (millis() - lastManualStep >= manualDelay) {
+      lastManualStep = millis();
+      stepMotor(z_pins, stepIndexZ, 1);
+    }
+  }
+
+  // DOWN
+  else if (joyVal < center - deadzone) {
+
+    int speedAmount = (center - deadzone) - joyVal;
+
+    int manualDelay = map(
+      speedAmount,
+      0,
+      511 - deadzone,
+      25,
+      3
+    );
+
+    if (millis() - lastManualStep >= manualDelay) {
+      lastManualStep = millis();
+      stepMotor(z_pins, stepIndexZ, -1);
+    }
   }
 }
